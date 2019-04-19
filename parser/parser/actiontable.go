@@ -133,9 +133,9 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			nil,       /* $ */
-			shift(13), /* { */
+			nil,       /* { */
 			nil,       /* label */
-			nil,       /* } */
+			reduce(4), /* }, reduce: FuncBlock */
 			nil,       /* (func: */
 			nil,       /* ( */
 			nil,       /* )) */
@@ -148,7 +148,7 @@ var actionTab = actionTable{
 			nil,       /* $ */
 			nil,       /* { */
 			nil,       /* label */
-			shift(14), /* } */
+			shift(13), /* } */
 			nil,       /* (func: */
 			nil,       /* ( */
 			nil,       /* )) */
@@ -173,7 +173,7 @@ var actionTab = actionTable{
 			nil,       /* INVALID */
 			nil,       /* $ */
 			nil,       /* { */
-			shift(15), /* label */
+			shift(14), /* label */
 			nil,       /* } */
 			nil,       /* (func: */
 			nil,       /* ( */
@@ -181,19 +181,6 @@ var actionTab = actionTable{
 		},
 	},
 	actionRow{ // S13
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,      /* INVALID */
-			nil,      /* $ */
-			shift(6), /* { */
-			nil,      /* label */
-			nil,      /* } */
-			nil,      /* (func: */
-			nil,      /* ( */
-			nil,      /* )) */
-		},
-	},
-	actionRow{ // S14
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
@@ -206,7 +193,7 @@ var actionTab = actionTable{
 			nil,       /* )) */
 		},
 	},
-	actionRow{ // S15
+	actionRow{ // S14
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
@@ -216,23 +203,10 @@ var actionTab = actionTable{
 			nil,       /* } */
 			nil,       /* (func: */
 			nil,       /* ( */
-			shift(17), /* )) */
+			shift(15), /* )) */
 		},
 	},
-	actionRow{ // S16
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* { */
-			nil,       /* label */
-			shift(18), /* } */
-			nil,       /* (func: */
-			nil,       /* ( */
-			nil,       /* )) */
-		},
-	},
-	actionRow{ // S17
+	actionRow{ // S15
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
@@ -240,19 +214,6 @@ var actionTab = actionTable{
 			reduce(2), /* {, reduce: Func */
 			nil,       /* label */
 			nil,       /* } */
-			nil,       /* (func: */
-			nil,       /* ( */
-			nil,       /* )) */
-		},
-	},
-	actionRow{ // S18
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* { */
-			nil,       /* label */
-			reduce(4), /* }, reduce: FuncBlock */
 			nil,       /* (func: */
 			nil,       /* ( */
 			nil,       /* )) */

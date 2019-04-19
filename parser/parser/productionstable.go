@@ -2,7 +2,7 @@
 
 package parser
 
-
+import "github.com/dgraph-io/dgraph/parser/ast"
 
 type (
 	//TODO: change type and variable names to be consistent with other tables
@@ -31,13 +31,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Query : "{" label Func FuncBody "}"	<<  >>`,
+		String: `Query : "{" label Func FuncBody "}"	<< ast.NewGraphQuery(X[1]) >>`,
 		Id:         "Query",
 		NTType:     1,
 		Index:      1,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return X[0], nil
+			return ast.NewGraphQuery(X[1])
 		},
 	},
 	ProdTabEntry{
@@ -61,11 +61,11 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `FuncBlock : label "{" FuncBody "}"	<<  >>`,
+		String: `FuncBlock : label	<<  >>`,
 		Id:         "FuncBlock",
 		NTType:     4,
 		Index:      4,
-		NumSymbols: 4,
+		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
 		},

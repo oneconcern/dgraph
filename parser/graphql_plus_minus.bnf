@@ -1,11 +1,15 @@
-_alphaNum: 'a' - 'z' | 'A'-'Z' | '0'-'9';
-label :  _alphaNum {_alphaNum};
+_achar: 'a' - 'z' | 'A'-'Z' | '0'-'9' | '_';
+label :  _achar {_achar};
+
+!whitespace : '\t' | '\n' | '\r' | ' ';
 
 /*Syntax part*/
-Query : "{" label  Func  FuncBody "}";
+<< import "github.com/dgraph-io/dgraph/parser/ast" >>
+
+Query : "{" label  Func  FuncBody "}" << ast.NewGraphQuery($1) >>;
 
 Func : "(func:" label "(" label "))";
 
 FuncBody: "{" FuncBlock "}";
 
-FuncBlock: label "{" FuncBody "}";
+FuncBlock: label;

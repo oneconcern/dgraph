@@ -25,35 +25,35 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S1
+		Accept: -1,
+		Ignore: "!whitespace",
+	},
+	ActionRow{ // S2
 		Accept: 6,
 		Ignore: "",
 	},
-	ActionRow{ // S2
-		Accept: 0,
-		Ignore: "",
-	},
 	ActionRow{ // S3
-		Accept: 3,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S4
-		Accept: 2,
+		Accept: 3,
 		Ignore: "",
 	},
 	ActionRow{ // S5
-		Accept: 4,
+		Accept: 2,
 		Ignore: "",
 	},
 	ActionRow{ // S6
-		Accept: 0,
+		Accept: 4,
 		Ignore: "",
 	},
 	ActionRow{ // S7
-		Accept: 7,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S8
-		Accept: 0,
+		Accept: 7,
 		Ignore: "",
 	},
 	ActionRow{ // S9
@@ -65,6 +65,10 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S11
+		Accept: 0,
+		Ignore: "",
+	},
+	ActionRow{ // S12
 		Accept: 5,
 		Ignore: "",
 	},

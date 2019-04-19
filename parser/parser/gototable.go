@@ -105,7 +105,7 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Query
 		-1, // Func
-		16, // FuncBody
+		-1, // FuncBody
 		-1, // FuncBlock
 	},
 	gotoRow{ // S14
@@ -116,27 +116,6 @@ var gotoTab = gotoTable{
 		-1, // FuncBlock
 	},
 	gotoRow{ // S15
-		-1, // S'
-		-1, // Query
-		-1, // Func
-		-1, // FuncBody
-		-1, // FuncBlock
-	},
-	gotoRow{ // S16
-		-1, // S'
-		-1, // Query
-		-1, // Func
-		-1, // FuncBody
-		-1, // FuncBlock
-	},
-	gotoRow{ // S17
-		-1, // S'
-		-1, // Query
-		-1, // Func
-		-1, // FuncBody
-		-1, // FuncBlock
-	},
-	gotoRow{ // S18
 		-1, // S'
 		-1, // Query
 		-1, // Func
