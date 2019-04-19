@@ -1,0 +1,11 @@
+_alphaNum: 'a' - 'z' | 'A'-'Z' | '0'-'9';
+label :  _alphaNum {_alphaNum};
+
+/*Syntax part*/
+Query : "{" label  Func  FuncBody "}";
+
+Func : "(func:" label "(" label "))";
+
+FuncBody: "{" FuncBlock "}";
+
+FuncBlock: label "{" FuncBody "}";
