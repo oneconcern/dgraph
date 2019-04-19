@@ -22,6 +22,8 @@ import (
 	"runtime/debug"
 	"testing"
 
+	"github.com/davecgh/go-spew/spew"
+
 	"github.com/dgraph-io/dgo/protos/api"
 	"github.com/dgraph-io/dgraph/chunker/rdf"
 	"github.com/stretchr/testify/require"
@@ -35,72 +37,7 @@ func childAttrs(g *GraphQuery) []string {
 	return out
 }
 
-func TestParseCountValError(t *testing.T) {
-	query := `
-{
-  me(func: uid(1)) {
-    Upvote {
-       u as Author
-    }
-    count(val(u))
-  }
-}
-	`
-	_, err := Parse(Request{Str: query})
-	require.Error(t, err)
-	require.Contains(t, err.Error(), "Count of a variable is not allowed")
-}
-
-func TestParseVarError(t *testing.T) {
-	query := `
-	{
-		var(func: uid(0x0a)) {
-			a as friends
-		}
-
-		me(func: uid(a)) {
-			uid(a)
-		}
-	}
-`
-	_, err := Parse(Request{Str: query})
-	require.Error(t, err)
-	require.Contains(t, err.Error(), "Cannot do uid() of a variable")
-}
-
 func TestDuplicateQueryAliasesError(t *testing.T) {
-	query := `
-{
-  find_michael(func: eq(name@., "Michael")) {
-    uid
-    name@.
-    age
-  }
-    find_michael(func: eq(name@., "Amit")) {
-      uid
-      name@.
-    }
-}`
-	_, err := Parse(Request{Str: query})
-	require.Error(t, err)
-
-	queryInOpType := `
-{
-  find_michael(func: eq(name@., "Michael")) {
-    uid
-    name@.
-    age
-  }
-}
-query {find_michael(func: eq(name@., "Amit")) {
-      uid
-      name@.
-    }
-}
-`
-	_, err = Parse(Request{Str: queryInOpType})
-	require.Error(t, err)
-
 	queryWithDuplicateShortestPaths := `
 {
  path as shortest(from: 0x1, to: 0x4) {
@@ -117,7 +54,8 @@ query {find_michael(func: eq(name@., "Amit")) {
  }
 
 }`
-	_, err = Parse(Request{Str: queryWithDuplicateShortestPaths})
+	result, err := Parse(Request{Str: queryWithDuplicateShortestPaths})
+	spew.Dump(result)
 	require.NoError(t, err)
 }
 

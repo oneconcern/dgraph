@@ -2,7 +2,7 @@
 
 package parser
 
-const numNTSymbols = 5
+const numNTSymbols = 10
 
 type (
 	gotoTable [numStates]gotoRow
@@ -12,114 +12,398 @@ type (
 var gotoTab = gotoTable{
 	gotoRow{ // S0
 		-1, // S'
-		1,  // Query
-		-1, // Func
+		1,  // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S1
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S2
 		-1, // S'
-		-1, // Query
-		-1, // Func
+		-1, // QueryStmt
+		3,  // QueryList
+		4,  // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S3
 		-1, // S'
-		-1, // Query
-		4,  // Func
+		-1, // QueryStmt
+		-1, // QueryList
+		7,  // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S4
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
-		7,  // FuncBody
-		-1, // FuncBlock
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S5
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
+		8,  // Function
+		10, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S6
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		10, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S7
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S8
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S9
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S10
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
-		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		15, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S11
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S12
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S13
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
+		18, // Function
+		10, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 	gotoRow{ // S14
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		20, // InnerQueryList
+		21, // InnerQuery
 	},
 	gotoRow{ // S15
 		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
 		-1, // Query
-		-1, // Func
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
 		-1, // FuncBody
-		-1, // FuncBlock
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S16
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S17
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S18
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S19
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S20
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		25, // InnerQuery
+	},
+	gotoRow{ // S21
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S22
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S23
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S24
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S25
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S26
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S27
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S28
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S29
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		31, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S30
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S31
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
+	},
+	gotoRow{ // S32
+		-1, // S'
+		-1, // QueryStmt
+		-1, // QueryList
+		-1, // Query
+		-1, // Function
+		-1, // FuncHead
+		-1, // ShortestPathOptArgs
+		-1, // FuncBody
+		-1, // InnerQueryList
+		-1, // InnerQuery
 	},
 }

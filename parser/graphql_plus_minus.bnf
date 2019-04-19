@@ -6,10 +6,27 @@ label :  _achar {_achar};
 /*Syntax part*/
 << import "github.com/dgraph-io/dgraph/parser/ast" >>
 
-Query : "{" label  Func  FuncBody "}" << ast.NewGraphQuery($1) >>;
+QueryStmt : "{" QueryList "}" << ast.NewGraphQuery($1) >>;
 
-Func : "(func:" label "(" label "))";
+QueryList: Query << ast.NewQueryList($0) >>
+    | QueryList Query << ast.AppendQuery($0, $1) >>
+;
 
-FuncBody: "{" FuncBlock "}";
+Query: label  Function << ast.NewQuery($0, $1) >>
+    | label "as" label  Function << ast.NewQueryWithVar($0, $2, $3) >>
+;
 
-FuncBlock: label;
+Function: FuncHead FuncBody << ast.NewFunction($0, $1) >>;
+
+FuncHead: "(func:" label "(" label "))"  << ast.NewFuncHead($1, $3) >> 
+      | "(from:" label "," "to:" label ShortestPathOptArgs ")" << ast.NewShortestPathFuncHead($1, $4, $5) >>;
+
+ShortestPathOptArgs: label | empty;
+
+FuncBody: "{" InnerQueryList "}" << ast.NewFuncBody($1) >>;
+
+InnerQueryList: InnerQuery  << ast.NewInnerQueryList($0) >>
+    | InnerQueryList InnerQuery << ast.AppendInnerQuery($0, $1) >>;
+
+InnerQuery: label;
+

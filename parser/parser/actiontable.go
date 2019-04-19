@@ -17,11 +17,17 @@ var actionTab = actionTable{
 			nil,      /* INVALID */
 			nil,      /* $ */
 			shift(2), /* { */
-			nil,      /* label */
 			nil,      /* } */
+			nil,      /* label */
+			nil,      /* as */
 			nil,      /* (func: */
 			nil,      /* ( */
 			nil,      /* )) */
+			nil,      /* (from: */
+			nil,      /* , */
+			nil,      /* to: */
+			nil,      /* ) */
+			nil,      /* empty */
 		},
 	},
 	actionRow{ // S1
@@ -30,11 +36,17 @@ var actionTab = actionTable{
 			nil,          /* INVALID */
 			accept(true), /* $ */
 			nil,          /* { */
-			nil,          /* label */
 			nil,          /* } */
+			nil,          /* label */
+			nil,          /* as */
 			nil,          /* (func: */
 			nil,          /* ( */
 			nil,          /* )) */
+			nil,          /* (from: */
+			nil,          /* , */
+			nil,          /* to: */
+			nil,          /* ) */
+			nil,          /* empty */
 		},
 	},
 	actionRow{ // S2
@@ -43,11 +55,17 @@ var actionTab = actionTable{
 			nil,      /* INVALID */
 			nil,      /* $ */
 			nil,      /* { */
-			shift(3), /* label */
 			nil,      /* } */
+			shift(5), /* label */
+			nil,      /* as */
 			nil,      /* (func: */
 			nil,      /* ( */
 			nil,      /* )) */
+			nil,      /* (from: */
+			nil,      /* , */
+			nil,      /* to: */
+			nil,      /* ) */
+			nil,      /* empty */
 		},
 	},
 	actionRow{ // S3
@@ -56,50 +74,74 @@ var actionTab = actionTable{
 			nil,      /* INVALID */
 			nil,      /* $ */
 			nil,      /* { */
-			nil,      /* label */
-			nil,      /* } */
-			shift(5), /* (func: */
+			shift(6), /* } */
+			shift(5), /* label */
+			nil,      /* as */
+			nil,      /* (func: */
 			nil,      /* ( */
 			nil,      /* )) */
+			nil,      /* (from: */
+			nil,      /* , */
+			nil,      /* to: */
+			nil,      /* ) */
+			nil,      /* empty */
 		},
 	},
 	actionRow{ // S4
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,      /* INVALID */
-			nil,      /* $ */
-			shift(6), /* { */
-			nil,      /* label */
-			nil,      /* } */
-			nil,      /* (func: */
-			nil,      /* ( */
-			nil,      /* )) */
+			nil,       /* INVALID */
+			nil,       /* $ */
+			nil,       /* { */
+			reduce(2), /* }, reduce: QueryList */
+			reduce(2), /* label, reduce: QueryList */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
 		},
 	},
 	actionRow{ // S5
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,      /* INVALID */
-			nil,      /* $ */
-			nil,      /* { */
-			shift(8), /* label */
-			nil,      /* } */
-			nil,      /* (func: */
-			nil,      /* ( */
-			nil,      /* )) */
+			nil,       /* INVALID */
+			nil,       /* $ */
+			nil,       /* { */
+			nil,       /* } */
+			nil,       /* label */
+			shift(9),  /* as */
+			shift(11), /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			shift(12), /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
 		},
 	},
 	actionRow{ // S6
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,      /* INVALID */
-			nil,      /* $ */
-			nil,      /* { */
-			shift(9), /* label */
-			nil,      /* } */
-			nil,      /* (func: */
-			nil,      /* ( */
-			nil,      /* )) */
+			nil,       /* INVALID */
+			reduce(1), /* $, reduce: QueryStmt */
+			nil,       /* { */
+			nil,       /* } */
+			nil,       /* label */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
 		},
 	},
 	actionRow{ // S7
@@ -108,11 +150,17 @@ var actionTab = actionTable{
 			nil,       /* INVALID */
 			nil,       /* $ */
 			nil,       /* { */
-			nil,       /* label */
-			shift(11), /* } */
+			reduce(3), /* }, reduce: QueryList */
+			reduce(3), /* label, reduce: QueryList */
+			nil,       /* as */
 			nil,       /* (func: */
 			nil,       /* ( */
 			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
 		},
 	},
 	actionRow{ // S8
@@ -121,11 +169,17 @@ var actionTab = actionTable{
 			nil,       /* INVALID */
 			nil,       /* $ */
 			nil,       /* { */
-			nil,       /* label */
-			nil,       /* } */
+			reduce(4), /* }, reduce: Query */
+			reduce(4), /* label, reduce: Query */
+			nil,       /* as */
 			nil,       /* (func: */
-			shift(12), /* ( */
+			nil,       /* ( */
 			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
 		},
 	},
 	actionRow{ // S9
@@ -134,11 +188,17 @@ var actionTab = actionTable{
 			nil,       /* INVALID */
 			nil,       /* $ */
 			nil,       /* { */
-			nil,       /* label */
-			reduce(4), /* }, reduce: FuncBlock */
+			nil,       /* } */
+			shift(13), /* label */
+			nil,       /* as */
 			nil,       /* (func: */
 			nil,       /* ( */
 			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
 		},
 	},
 	actionRow{ // S10
@@ -146,25 +206,37 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			nil,       /* $ */
-			nil,       /* { */
+			shift(14), /* { */
+			nil,       /* } */
 			nil,       /* label */
-			shift(13), /* } */
+			nil,       /* as */
 			nil,       /* (func: */
 			nil,       /* ( */
 			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
 		},
 	},
 	actionRow{ // S11
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
-			reduce(1), /* $, reduce: Query */
+			nil,       /* $ */
 			nil,       /* { */
-			nil,       /* label */
 			nil,       /* } */
+			shift(16), /* label */
+			nil,       /* as */
 			nil,       /* (func: */
 			nil,       /* ( */
 			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
 		},
 	},
 	actionRow{ // S12
@@ -173,11 +245,17 @@ var actionTab = actionTable{
 			nil,       /* INVALID */
 			nil,       /* $ */
 			nil,       /* { */
-			shift(14), /* label */
 			nil,       /* } */
+			shift(17), /* label */
+			nil,       /* as */
 			nil,       /* (func: */
 			nil,       /* ( */
 			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
 		},
 	},
 	actionRow{ // S13
@@ -186,11 +264,17 @@ var actionTab = actionTable{
 			nil,       /* INVALID */
 			nil,       /* $ */
 			nil,       /* { */
+			nil,       /* } */
 			nil,       /* label */
-			reduce(3), /* }, reduce: FuncBody */
-			nil,       /* (func: */
+			nil,       /* as */
+			shift(11), /* (func: */
 			nil,       /* ( */
 			nil,       /* )) */
+			shift(12), /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
 		},
 	},
 	actionRow{ // S14
@@ -199,11 +283,17 @@ var actionTab = actionTable{
 			nil,       /* INVALID */
 			nil,       /* $ */
 			nil,       /* { */
-			nil,       /* label */
 			nil,       /* } */
+			shift(19), /* label */
+			nil,       /* as */
 			nil,       /* (func: */
 			nil,       /* ( */
-			shift(15), /* )) */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
 		},
 	},
 	actionRow{ // S15
@@ -211,12 +301,341 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			nil,       /* $ */
-			reduce(2), /* {, reduce: Func */
-			nil,       /* label */
-			nil,       /* } */
+			nil,       /* { */
+			reduce(6), /* }, reduce: Function */
+			reduce(6), /* label, reduce: Function */
+			nil,       /* as */
 			nil,       /* (func: */
 			nil,       /* ( */
 			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
+		},
+	},
+	actionRow{ // S16
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			nil,       /* $ */
+			nil,       /* { */
+			nil,       /* } */
+			nil,       /* label */
+			nil,       /* as */
+			nil,       /* (func: */
+			shift(22), /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
+		},
+	},
+	actionRow{ // S17
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			nil,       /* $ */
+			nil,       /* { */
+			nil,       /* } */
+			nil,       /* label */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			shift(23), /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
+		},
+	},
+	actionRow{ // S18
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			nil,       /* $ */
+			nil,       /* { */
+			reduce(5), /* }, reduce: Query */
+			reduce(5), /* label, reduce: Query */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
+		},
+	},
+	actionRow{ // S19
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        /* INVALID */
+			nil,        /* $ */
+			nil,        /* { */
+			reduce(14), /* }, reduce: InnerQuery */
+			reduce(14), /* label, reduce: InnerQuery */
+			nil,        /* as */
+			nil,        /* (func: */
+			nil,        /* ( */
+			nil,        /* )) */
+			nil,        /* (from: */
+			nil,        /* , */
+			nil,        /* to: */
+			nil,        /* ) */
+			nil,        /* empty */
+		},
+	},
+	actionRow{ // S20
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			nil,       /* $ */
+			nil,       /* { */
+			shift(24), /* } */
+			shift(19), /* label */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
+		},
+	},
+	actionRow{ // S21
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        /* INVALID */
+			nil,        /* $ */
+			nil,        /* { */
+			reduce(12), /* }, reduce: InnerQueryList */
+			reduce(12), /* label, reduce: InnerQueryList */
+			nil,        /* as */
+			nil,        /* (func: */
+			nil,        /* ( */
+			nil,        /* )) */
+			nil,        /* (from: */
+			nil,        /* , */
+			nil,        /* to: */
+			nil,        /* ) */
+			nil,        /* empty */
+		},
+	},
+	actionRow{ // S22
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			nil,       /* $ */
+			nil,       /* { */
+			nil,       /* } */
+			shift(26), /* label */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
+		},
+	},
+	actionRow{ // S23
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			nil,       /* $ */
+			nil,       /* { */
+			nil,       /* } */
+			nil,       /* label */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			shift(27), /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
+		},
+	},
+	actionRow{ // S24
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        /* INVALID */
+			nil,        /* $ */
+			nil,        /* { */
+			reduce(11), /* }, reduce: FuncBody */
+			reduce(11), /* label, reduce: FuncBody */
+			nil,        /* as */
+			nil,        /* (func: */
+			nil,        /* ( */
+			nil,        /* )) */
+			nil,        /* (from: */
+			nil,        /* , */
+			nil,        /* to: */
+			nil,        /* ) */
+			nil,        /* empty */
+		},
+	},
+	actionRow{ // S25
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        /* INVALID */
+			nil,        /* $ */
+			nil,        /* { */
+			reduce(13), /* }, reduce: InnerQueryList */
+			reduce(13), /* label, reduce: InnerQueryList */
+			nil,        /* as */
+			nil,        /* (func: */
+			nil,        /* ( */
+			nil,        /* )) */
+			nil,        /* (from: */
+			nil,        /* , */
+			nil,        /* to: */
+			nil,        /* ) */
+			nil,        /* empty */
+		},
+	},
+	actionRow{ // S26
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			nil,       /* $ */
+			nil,       /* { */
+			nil,       /* } */
+			nil,       /* label */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			shift(28), /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
+		},
+	},
+	actionRow{ // S27
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			nil,       /* $ */
+			nil,       /* { */
+			nil,       /* } */
+			shift(29), /* label */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
+		},
+	},
+	actionRow{ // S28
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			nil,       /* $ */
+			reduce(7), /* {, reduce: FuncHead */
+			nil,       /* } */
+			nil,       /* label */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
+		},
+	},
+	actionRow{ // S29
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        /* INVALID */
+			nil,        /* $ */
+			nil,        /* { */
+			nil,        /* } */
+			shift(30),  /* label */
+			nil,        /* as */
+			nil,        /* (func: */
+			nil,        /* ( */
+			nil,        /* )) */
+			nil,        /* (from: */
+			nil,        /* , */
+			nil,        /* to: */
+			reduce(10), /* ), reduce: ShortestPathOptArgs */
+			nil,        /* empty */
+		},
+	},
+	actionRow{ // S30
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			nil,       /* $ */
+			nil,       /* { */
+			nil,       /* } */
+			nil,       /* label */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			reduce(9), /* ), reduce: ShortestPathOptArgs */
+			nil,       /* empty */
+		},
+	},
+	actionRow{ // S31
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			nil,       /* $ */
+			nil,       /* { */
+			nil,       /* } */
+			nil,       /* label */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			shift(32), /* ) */
+			nil,       /* empty */
+		},
+	},
+	actionRow{ // S32
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			nil,       /* $ */
+			reduce(8), /* {, reduce: FuncHead */
+			nil,       /* } */
+			nil,       /* label */
+			nil,       /* as */
+			nil,       /* (func: */
+			nil,       /* ( */
+			nil,       /* )) */
+			nil,       /* (from: */
+			nil,       /* , */
+			nil,       /* to: */
+			nil,       /* ) */
+			nil,       /* empty */
 		},
 	},
 }

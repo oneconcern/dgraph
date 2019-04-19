@@ -21,7 +21,7 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : Query	<<  >>`,
+		String: `S' : QueryStmt	<<  >>`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
@@ -31,40 +31,140 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Query : "{" label Func FuncBody "}"	<< ast.NewGraphQuery(X[1]) >>`,
-		Id:         "Query",
+		String: `QueryStmt : "{" QueryList "}"	<< ast.NewGraphQuery(X[1]) >>`,
+		Id:         "QueryStmt",
 		NTType:     1,
 		Index:      1,
-		NumSymbols: 5,
+		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewGraphQuery(X[1])
 		},
 	},
 	ProdTabEntry{
-		String: `Func : "(func:" label "(" label "))"	<<  >>`,
-		Id:         "Func",
+		String: `QueryList : Query	<< ast.NewQueryList(X[0]) >>`,
+		Id:         "QueryList",
 		NTType:     2,
 		Index:      2,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.NewQueryList(X[0])
+		},
+	},
+	ProdTabEntry{
+		String: `QueryList : QueryList Query	<< ast.AppendQuery(X[0], X[1]) >>`,
+		Id:         "QueryList",
+		NTType:     2,
+		Index:      3,
+		NumSymbols: 2,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.AppendQuery(X[0], X[1])
+		},
+	},
+	ProdTabEntry{
+		String: `Query : label Function	<< ast.NewQuery(X[0], X[1]) >>`,
+		Id:         "Query",
+		NTType:     3,
+		Index:      4,
+		NumSymbols: 2,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.NewQuery(X[0], X[1])
+		},
+	},
+	ProdTabEntry{
+		String: `Query : label "as" label Function	<< ast.NewQueryWithVar(X[0], X[2], X[3]) >>`,
+		Id:         "Query",
+		NTType:     3,
+		Index:      5,
+		NumSymbols: 4,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.NewQueryWithVar(X[0], X[2], X[3])
+		},
+	},
+	ProdTabEntry{
+		String: `Function : FuncHead FuncBody	<< ast.NewFunction(X[0], X[1]) >>`,
+		Id:         "Function",
+		NTType:     4,
+		Index:      6,
+		NumSymbols: 2,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.NewFunction(X[0], X[1])
+		},
+	},
+	ProdTabEntry{
+		String: `FuncHead : "(func:" label "(" label "))"	<< ast.NewFuncHead(X[1], X[3]) >>`,
+		Id:         "FuncHead",
+		NTType:     5,
+		Index:      7,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return X[0], nil
+			return ast.NewFuncHead(X[1], X[3])
 		},
 	},
 	ProdTabEntry{
-		String: `FuncBody : "{" FuncBlock "}"	<<  >>`,
-		Id:         "FuncBody",
-		NTType:     3,
-		Index:      3,
-		NumSymbols: 3,
+		String: `FuncHead : "(from:" label "," "to:" label ShortestPathOptArgs ")"	<< ast.NewShortestPathFuncHead(X[1], X[4], X[5]) >>`,
+		Id:         "FuncHead",
+		NTType:     5,
+		Index:      8,
+		NumSymbols: 7,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.NewShortestPathFuncHead(X[1], X[4], X[5])
+		},
+	},
+	ProdTabEntry{
+		String: `ShortestPathOptArgs : label	<<  >>`,
+		Id:         "ShortestPathOptArgs",
+		NTType:     6,
+		Index:      9,
+		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
 		},
 	},
 	ProdTabEntry{
-		String: `FuncBlock : label	<<  >>`,
-		Id:         "FuncBlock",
-		NTType:     4,
-		Index:      4,
+		String: `ShortestPathOptArgs : empty	<<  >>`,
+		Id:         "ShortestPathOptArgs",
+		NTType:     6,
+		Index:      10,
+		NumSymbols: 0,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return nil, nil
+		},
+	},
+	ProdTabEntry{
+		String: `FuncBody : "{" InnerQueryList "}"	<< ast.NewFuncBody(X[1]) >>`,
+		Id:         "FuncBody",
+		NTType:     7,
+		Index:      11,
+		NumSymbols: 3,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.NewFuncBody(X[1])
+		},
+	},
+	ProdTabEntry{
+		String: `InnerQueryList : InnerQuery	<< ast.NewInnerQueryList(X[0]) >>`,
+		Id:         "InnerQueryList",
+		NTType:     8,
+		Index:      12,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.NewInnerQueryList(X[0])
+		},
+	},
+	ProdTabEntry{
+		String: `InnerQueryList : InnerQueryList InnerQuery	<< ast.AppendInnerQuery(X[0], X[1]) >>`,
+		Id:         "InnerQueryList",
+		NTType:     8,
+		Index:      13,
+		NumSymbols: 2,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.AppendInnerQuery(X[0], X[1])
+		},
+	},
+	ProdTabEntry{
+		String: `InnerQuery : label	<<  >>`,
+		Id:         "InnerQuery",
+		NTType:     9,
+		Index:      14,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
