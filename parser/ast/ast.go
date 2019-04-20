@@ -8,9 +8,34 @@ import (
 type Attrib interface{}
 
 func NewGraphQuery(queryList Attrib) (gql.Result, error) {
+	queries := queryList.(QueryList)
+	queryVars := getQueryVars(queries)
 	return gql.Result{
-		Query: queryList.(QueryList),
+		Query:     queries,
+		QueryVars: queryVars,
 	}, nil
+}
+
+func getQueryVars(queries QueryList) []*gql.Vars {
+	vars := make([]*gql.Vars, 0)
+	for _, query := range queries {
+		qvar := &gql.Vars{
+			Needs: varNames(query.NeedsVar),
+		}
+		if len(query.Var) > 0 {
+			qvar.Defines = []string{query.Var}
+		}
+		vars = append(vars, qvar)
+	}
+	return vars
+}
+
+func varNames(vars []gql.VarContext) []string {
+	varNames := make([]string, 0, len(vars))
+	for _, v := range vars {
+		varNames = append(varNames, v.Name)
+	}
+	return varNames
 }
 
 type QueryList []*gql.GraphQuery
@@ -32,6 +57,7 @@ func NewQuery(alias, function Attrib) (*gql.GraphQuery, error) {
 		Args:     theFunc.argsForQuery,
 		Func:     theFunc.realFunc,
 		Children: theFunc.children,
+		NeedsVar: theFunc.needsVar,
 	}, nil
 }
 
@@ -49,13 +75,15 @@ type FuncHead struct {
 	Args         []gql.Arg
 	ArgsForQuery map[string]string
 
-	Name string
+	Name     string
+	needsVar []gql.VarContext
 }
 
 type Function struct {
 	argsForQuery map[string]string
 	realFunc     *gql.Function
 	children     []*gql.GraphQuery
+	needsVar     []gql.VarContext
 }
 
 func NewFunction(funcHead, funcBody Attrib) (Function, error) {
@@ -69,13 +97,27 @@ func NewFunction(funcHead, funcBody Attrib) (Function, error) {
 		argsForQuery: theFuncHead.ArgsForQuery,
 		realFunc:     gqlFunc,
 		children:     theFuncBody.Children,
+		needsVar:     theFuncHead.needsVar,
 	}, nil
 }
 
 func NewFuncHead(name, funcHeadContent Attrib) (FuncHead, error) {
-	return FuncHead{
-		Name: tokStr(name),
-	}, nil
+	funcHead := FuncHead{
+		Name:     tokStr(name),
+		needsVar: make([]gql.VarContext, 0),
+	}
+	if funcHead.Name == "val" {
+		funcHead.needsVar = append(funcHead.needsVar, gql.VarContext{
+			Name: tokStr(funcHeadContent),
+			Typ:  gql.ValueVar,
+		})
+	} else if funcHead.Name == "uid" {
+		funcHead.needsVar = append(funcHead.needsVar, gql.VarContext{
+			Name: tokStr(funcHeadContent),
+			Typ:  gql.UidVar,
+		})
+	}
+	return funcHead, nil
 }
 
 func NewShortestPathFuncHead(from, to, optArgs Attrib) (FuncHead, error) {
