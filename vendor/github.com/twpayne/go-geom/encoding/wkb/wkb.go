@@ -1,4 +1,8 @@
 // Package wkb implements Well Known Binary encoding and decoding.
+//
+// If you are encoding geometries in WKB to send to PostgreSQL/PostGIS, then
+// you must specify binary_parameters=yes in the data source name that you pass
+// to sql.Open.
 package wkb
 
 import (
@@ -26,7 +30,6 @@ const (
 
 // Read reads an arbitrary geometry from r.
 func Read(r io.Reader) (geom.T, error) {
-
 	var wkbByteOrder, err = wkbcommon.ReadByte(r)
 	if err != nil {
 		return nil, err
@@ -85,8 +88,8 @@ func Read(r io.Reader) (geom.T, error) {
 		if err != nil {
 			return nil, err
 		}
-		if n > wkbcommon.MaxGeometryElements[1] {
-			return nil, wkbcommon.ErrGeometryTooLarge{Level: 1, N: n, Limit: wkbcommon.MaxGeometryElements[1]}
+		if limit := wkbcommon.MaxGeometryElements[1]; limit >= 0 && int(n) > limit {
+			return nil, wkbcommon.ErrGeometryTooLarge{Level: 1, N: int(n), Limit: limit}
 		}
 		mp := geom.NewMultiPoint(layout)
 		for i := uint32(0); i < n; i++ {
@@ -108,8 +111,8 @@ func Read(r io.Reader) (geom.T, error) {
 		if err != nil {
 			return nil, err
 		}
-		if n > wkbcommon.MaxGeometryElements[2] {
-			return nil, wkbcommon.ErrGeometryTooLarge{Level: 2, N: n, Limit: wkbcommon.MaxGeometryElements[2]}
+		if limit := wkbcommon.MaxGeometryElements[2]; limit >= 0 && int(n) > limit {
+			return nil, wkbcommon.ErrGeometryTooLarge{Level: 2, N: int(n), Limit: limit}
 		}
 		mls := geom.NewMultiLineString(layout)
 		for i := uint32(0); i < n; i++ {
@@ -131,8 +134,8 @@ func Read(r io.Reader) (geom.T, error) {
 		if err != nil {
 			return nil, err
 		}
-		if n > wkbcommon.MaxGeometryElements[3] {
-			return nil, wkbcommon.ErrGeometryTooLarge{Level: 3, N: n, Limit: wkbcommon.MaxGeometryElements[3]}
+		if limit := wkbcommon.MaxGeometryElements[3]; limit >= 0 && int(n) > limit {
+			return nil, wkbcommon.ErrGeometryTooLarge{Level: 3, N: int(n), Limit: limit}
 		}
 		mp := geom.NewMultiPolygon(layout)
 		for i := uint32(0); i < n; i++ {
@@ -149,10 +152,25 @@ func Read(r io.Reader) (geom.T, error) {
 			}
 		}
 		return mp, nil
+	case wkbcommon.GeometryCollectionID:
+		n, err := wkbcommon.ReadUInt32(r, byteOrder)
+		if err != nil {
+			return nil, err
+		}
+		gc := geom.NewGeometryCollection()
+		for i := uint32(0); i < n; i++ {
+			g, err := Read(r)
+			if err != nil {
+				return nil, err
+			}
+			if err := gc.Push(g); err != nil {
+				return nil, err
+			}
+		}
+		return gc, nil
 	default:
 		return nil, wkbcommon.ErrUnsupportedType(wkbGeometryType)
 	}
-
 }
 
 // Unmarshal unmrshals an arbitrary geometry from a []byte.
@@ -162,7 +180,6 @@ func Unmarshal(data []byte) (geom.T, error) {
 
 // Write writes an arbitrary geometry to w.
 func Write(w io.Writer, byteOrder binary.ByteOrder, g geom.T) error {
-
 	var wkbByteOrder byte
 	switch byteOrder {
 	case XDR:
@@ -190,6 +207,8 @@ func Write(w io.Writer, byteOrder binary.ByteOrder, g geom.T) error {
 		wkbGeometryType = wkbcommon.MultiLineStringID
 	case *geom.MultiPolygon:
 		wkbGeometryType = wkbcommon.MultiPolygonID
+	case *geom.GeometryCollection:
+		wkbGeometryType = wkbcommon.GeometryCollectionID
 	default:
 		return geom.ErrUnsupportedType{Value: g}
 	}
@@ -209,7 +228,7 @@ func Write(w io.Writer, byteOrder binary.ByteOrder, g geom.T) error {
 		return err
 	}
 
-	switch g.(type) {
+	switch g := g.(type) {
 	case *geom.Point:
 		return wkbcommon.WriteFlatCoords0(w, byteOrder, g.FlatCoords())
 	case *geom.LineString:
@@ -217,37 +236,45 @@ func Write(w io.Writer, byteOrder binary.ByteOrder, g geom.T) error {
 	case *geom.Polygon:
 		return wkbcommon.WriteFlatCoords2(w, byteOrder, g.FlatCoords(), g.Ends(), g.Stride())
 	case *geom.MultiPoint:
-		mp := g.(*geom.MultiPoint)
-		n := mp.NumPoints()
+		n := g.NumPoints()
 		if err := wkbcommon.WriteUInt32(w, byteOrder, uint32(n)); err != nil {
 			return err
 		}
 		for i := 0; i < n; i++ {
-			if err := Write(w, byteOrder, mp.Point(i)); err != nil {
+			if err := Write(w, byteOrder, g.Point(i)); err != nil {
 				return err
 			}
 		}
 		return nil
 	case *geom.MultiLineString:
-		mls := g.(*geom.MultiLineString)
-		n := mls.NumLineStrings()
+		n := g.NumLineStrings()
 		if err := wkbcommon.WriteUInt32(w, byteOrder, uint32(n)); err != nil {
 			return err
 		}
 		for i := 0; i < n; i++ {
-			if err := Write(w, byteOrder, mls.LineString(i)); err != nil {
+			if err := Write(w, byteOrder, g.LineString(i)); err != nil {
 				return err
 			}
 		}
 		return nil
 	case *geom.MultiPolygon:
-		mp := g.(*geom.MultiPolygon)
-		n := mp.NumPolygons()
+		n := g.NumPolygons()
 		if err := wkbcommon.WriteUInt32(w, byteOrder, uint32(n)); err != nil {
 			return err
 		}
 		for i := 0; i < n; i++ {
-			if err := Write(w, byteOrder, mp.Polygon(i)); err != nil {
+			if err := Write(w, byteOrder, g.Polygon(i)); err != nil {
+				return err
+			}
+		}
+		return nil
+	case *geom.GeometryCollection:
+		n := g.NumGeoms()
+		if err := wkbcommon.WriteUInt32(w, byteOrder, uint32(n)); err != nil {
+			return err
+		}
+		for i := 0; i < n; i++ {
+			if err := Write(w, byteOrder, g.Geom(i)); err != nil {
 				return err
 			}
 		}
@@ -255,7 +282,6 @@ func Write(w io.Writer, byteOrder binary.ByteOrder, g geom.T) error {
 	default:
 		return geom.ErrUnsupportedType{Value: g}
 	}
-
 }
 
 // Marshal marshals an arbitrary geometry to a []byte.

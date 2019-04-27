@@ -899,22 +899,22 @@
 			"revisionTime": "2019-04-22T10:06:17Z"
 		},
 		{
-			"checksumSHA1": "7nqAxLYlyEi9e5DUsc+WNo++6PY=",
+			"checksumSHA1": "Rv9B6PhrsKVl9cNnAVAN8+8yp7Q=",
 			"path": "github.com/twpayne/go-geom/encoding/geojson",
-			"revision": "6753ad11e46b04e21b3f286b342e73a8c4be8216",
-			"revisionTime": "2017-03-17T09:06:30Z"
+			"revision": "e21b3afba225b21d05fbcbeb8ece2c79c96554c5",
+			"revisionTime": "2019-04-22T10:06:17Z"
 		},
 		{
-			"checksumSHA1": "5V3g7dys2PJyNp9NeyBsASNgplI=",
+			"checksumSHA1": "fhw1ActAWUqMCAy45XD1mqKIieQ=",
 			"path": "github.com/twpayne/go-geom/encoding/wkb",
-			"revision": "6753ad11e46b04e21b3f286b342e73a8c4be8216",
-			"revisionTime": "2017-03-17T09:06:30Z"
+			"revision": "e21b3afba225b21d05fbcbeb8ece2c79c96554c5",
+			"revisionTime": "2019-04-22T10:06:17Z"
 		},
 		{
-			"checksumSHA1": "KDedv+IgB08fN9r3oSsHJ5/1Xyc=",
+			"checksumSHA1": "T2UWc62h5dGdcKkP/IojewCE9hQ=",
 			"path": "github.com/twpayne/go-geom/encoding/wkbcommon",
-			"revision": "6753ad11e46b04e21b3f286b342e73a8c4be8216",
-			"revisionTime": "2017-03-17T09:06:30Z"
+			"revision": "e21b3afba225b21d05fbcbeb8ece2c79c96554c5",
+			"revisionTime": "2019-04-22T10:06:17Z"
 		},
 		{
 			"checksumSHA1": "+25Opx2Qr/VmlVeKxtbr+SHgoy0=",
