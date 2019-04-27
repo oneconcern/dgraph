@@ -1,6 +1,8 @@
-// Package geom implements fast and GC-efficient Open Geo Consortium-style
-// geometries.
+// Package geom implements efficient geometry types for geospatial
+// applications.
 package geom
+
+//go:generate goderive .
 
 import (
 	"errors"
@@ -70,25 +72,30 @@ func (e ErrUnsupportedType) Error() string {
 // A Coord represents an N-dimensional coordinate.
 type Coord []float64
 
-// X returns the x coordinate of the coordinate.  X is assumed to be the first ordinate
+// Clone returns a deep copy of c.
+func (c Coord) Clone() Coord {
+	return deriveCloneCoord(c)
+}
+
+// X returns the x coordinate of c. X is assumed to be the first ordinate.
 func (c Coord) X() float64 {
 	return c[0]
 }
 
-// Y returns the x coordinate of the coordinate.  Y is assumed to be the second ordinate
+// Y returns the y coordinate of c. Y is assumed to be the second ordinate.
 func (c Coord) Y() float64 {
 	return c[1]
 }
 
-// Set copies the ordinate data from the other coord to this coord
+// Set copies the ordinate data from the other coord to this coord.
 func (c Coord) Set(other Coord) {
 	copy(c, other)
 }
 
 // Equal compares that all ordinates are the same in this and the other coords.
-// It is assumed that this coord and other coord both have the same (provided) layout
+// It is assumed that this coord and other coord both have the same (provided)
+// layout.
 func (c Coord) Equal(layout Layout, other Coord) bool {
-
 	numOrds := len(c)
 
 	if layout.Stride() < numOrds {
@@ -123,7 +130,8 @@ type T interface {
 	SRID() int
 }
 
-// MIndex returns the index of the M dimension, or -1 if the l does not have an M dimension.
+// MIndex returns the index of the M dimension, or -1 if the l does not have an
+// M dimension.
 func (l Layout) MIndex() int {
 	switch l {
 	case NoLayout, XY, XYZ:
@@ -173,7 +181,8 @@ func (l Layout) String() string {
 	}
 }
 
-// ZIndex returns the index of l's Z dimension, or -1 if l does not have a Z dimension.
+// ZIndex returns the index of l's Z dimension, or -1 if l does not have a Z
+// dimension.
 func (l Layout) ZIndex() int {
 	switch l {
 	case NoLayout, XY, XYM:
