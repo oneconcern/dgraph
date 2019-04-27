@@ -13,7 +13,7 @@ mkdir $GOPATH
 # Necessary to pick up Gobin binaries like protoc-gen-gofast
 PATH="$GOPATH/bin:$PATH"
 
-GOVERSION="1.11.5"
+GOVERSION="1.12.4"
 
 TAG=$1
 # The Docker tag should not contain a slash e.g. feature/issue1234
@@ -68,7 +68,8 @@ popd
 basedir=$GOPATH/src/github.com/dgraph-io
 # Clone Dgraph repo.
 pushd $basedir
-  git clone https://github.com/dgraph-io/dgraph.git
+  # git clone https://github.com/dgraph-io/dgraph.git
+  cp -r ~/go/src/github.com/dgraph-io/dgraph .
 popd
 
 pushd $basedir/dgraph
@@ -140,7 +141,7 @@ popd
 
 # Build Linux.
 pushd $basedir/dgraph/dgraph
-	xgo -go=$GOVERSION --targets=linux/amd64 -ldflags \
+	xgo -go=$GOVERSION --targets=linux/amd64 -buildmode=pie -ldflags \
     "-X $release=$release_version -X $branch=$gitBranch -X $commitSHA1=$lastCommitSHA1 -X '$commitTime=$lastCommitTime'" .
   strip -x dgraph-linux-amd64
   mkdir $TMP/linux
