@@ -13,7 +13,7 @@ mkdir $GOPATH
 # Necessary to pick up Gobin binaries like protoc-gen-gofast
 PATH="$GOPATH/bin:$PATH"
 
-GOVERSION="1.12.4"
+GOVERSION="1.12.3"
 
 TAG=$1
 # The Docker tag should not contain a slash e.g. feature/issue1234
